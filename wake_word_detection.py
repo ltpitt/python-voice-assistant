@@ -23,6 +23,7 @@ def callback(indata, frames, time, status):
         print(status, file=sys.stderr)
     q.put(bytes(indata))
 
+
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument(
     '-l', '--list-devices', action='store_true',
@@ -76,21 +77,18 @@ try:
             rec = vosk.KaldiRecognizer(model, args.samplerate)
 
             while True:
+                print("Waiting for wake word...")
                 data = q.get()
-                if len(data) == 0:
-                    pass
+                # if len(data) == 0:
+                #     pass
                 if rec.AcceptWaveform(data):
-                    print(rec.Result())
                     if "james" in rec.Result():
-                        print("Ho capito!")
                         voice_assistant.run_assistant()
-                        quit()
+                        rec.Reset()
                 else:
-                    print(rec.PartialResult())
                     if "james" in rec.PartialResult():
-                        print("Ho capito lo stesso!")
                         voice_assistant.run_assistant()
-                        quit()
+                        rec.Reset()
                 if dump_fn is not None:
                     dump_fn.write(data)
 

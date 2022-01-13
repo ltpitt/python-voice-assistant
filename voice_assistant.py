@@ -21,11 +21,9 @@ def talk(text):
 def take_command():
     with sr.Microphone() as source:
         listener.adjust_for_ambient_noise(source)
-        talk('I am listening.')
+        talk('Yes?')
         try:
-            # Timeout dopo 5 secondi di silenzio
-            # Frase massima 20 secondi
-            voice = listener.listen(source, 4, 20)
+            voice = listener.listen(source)
             command = listener.recognize_google(voice, language='en-US')
         except sr.UnknownValueError:
             print("Oops! Didn't catch that")
@@ -59,8 +57,8 @@ def run_assistant():
             talk('I am in a relationship with a WiFi router')
         elif 'joke' in command:
             talk(pyjokes.get_joke())
-        elif 'hello' in command:
-            talk("Hello, my friend!")
+        elif 'say hello' in command:
+            talk("Hi Sandra! I hope you are fine.")
         else:
             talk('I did not understand.')
 
