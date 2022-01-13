@@ -3,4 +3,7 @@ pyttsx3
 pywhatkit
 wikipedia
 pyjokes
-pyaudio
+
+vosk # If it does not install in Windows try using pipwin
+pyaudio # If it does not install in Windows try using pipwin
+
