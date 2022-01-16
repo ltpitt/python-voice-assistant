@@ -1,9 +1,9 @@
 SpeechRecognition
-pyttsx3
-pywhatkit
-wikipedia
-pyjokes
+pyttsx3~=2.90
+pywhatkit~=5.3
+wikipedia~=1.4.0
+pyjokes~=0.6.0
 
-vosk # If it does not install in Windows try using pipwin
+vosk~=0.3.32
 pyaudio # If it does not install in Windows try using pipwin
-
+sounddevice~=0.4.4
