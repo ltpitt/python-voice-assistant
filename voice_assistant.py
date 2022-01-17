@@ -4,6 +4,7 @@ import pywhatkit
 import datetime
 import wikipedia
 import pyjokes
+import time
 
 listener = sr.Recognizer()
 engine = pyttsx3.init()
@@ -22,16 +23,21 @@ def take_command():
     with sr.Microphone() as source:
         listener.adjust_for_ambient_noise(source)
         talk('Yes?')
+        print('Yes?')
         try:
-            voice = listener.listen(source)
+            voice = listener.listen(source, 4, 10)
             command = listener.recognize_google(voice, language='en-US')
         except sr.UnknownValueError:
+            talk("Oops! Didn't catch that")
             print("Oops! Didn't catch that")
             command = ""
         except sr.RequestError as e:
+            talk("Uh oh! Couldn't request results from Google Speech Recognition service; {0}".format(e))
             print("Uh oh! Couldn't request results from Google Speech Recognition service; {0}".format(e))
             command = ""
         command = command.lower()
+    print(command)
+    time.sleep(2)
     return command
 
 
@@ -57,8 +63,8 @@ def run_assistant():
             talk('I am in a relationship with a WiFi router')
         elif 'joke' in command:
             talk(pyjokes.get_joke())
-        elif 'say hello' in command:
-            talk("Hi Sandra! I hope you are fine.")
+        elif 'hello' in command:
+            talk("Hi!")
         else:
-            talk('I did not understand.')
+            talk('I did not understand. Please try commands like play, time, who is, or joke.')
 
