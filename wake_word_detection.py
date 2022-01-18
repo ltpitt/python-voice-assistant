@@ -10,12 +10,14 @@ import voice_assistant
 
 q = queue.Queue()
 
+
 def int_or_str(text):
     """Helper function for argument parsing."""
     try:
         return int(text)
     except ValueError:
         return text
+
 
 def callback(indata, frames, time, status):
     """This is called (from a separate thread) for each audio block."""
@@ -53,8 +55,8 @@ try:
     if args.model is None:
         args.model = "model"
     if not os.path.exists(args.model):
-        print ("Please download a model for your language from https://alphacephei.com/vosk/models")
-        print ("and unpack as 'model' in the current folder.")
+        print("Please download a model for your language from https://alphacephei.com/vosk/models")
+        print("and unpack as 'model' in the current folder.")
         parser.exit(0)
     if args.samplerate is None:
         device_info = sd.query_devices(args.device, 'input')
@@ -69,28 +71,28 @@ try:
         dump_fn = None
 
     with sd.RawInputStream(samplerate=args.samplerate, blocksize=8000, device=args.device, dtype='int16',
-                            channels=1, callback=callback):
-            print('#' * 80)
-            print('Press Ctrl+C to stop the recording')
-            print('#' * 80)
+                           channels=1, callback=callback):
+        print('#' * 80)
+        print('Press Ctrl+C to stop the recording')
+        print('#' * 80)
 
-            rec = vosk.KaldiRecognizer(model, args.samplerate)
+        rec = vosk.KaldiRecognizer(model, args.samplerate)
 
-            while True:
-                print("Waiting for wake word...")
-                data = q.get()
-                # if len(data) == 0:
-                #     pass
-                if rec.AcceptWaveform(data):
-                    if "james" in rec.Result():
-                        voice_assistant.run_assistant()
-                        rec.Reset()
-                else:
-                    if "james" in rec.PartialResult():
-                        voice_assistant.run_assistant()
-                        rec.Reset()
-                if dump_fn is not None:
-                    dump_fn.write(data)
+        while True:
+            print("Waiting for wake word...")
+            data = q.get()
+            # if len(data) == 0:
+            #     pass
+            if rec.AcceptWaveform(data):
+                if "james" in rec.Result():
+                    voice_assistant.run_assistant()
+                    rec.Reset()
+            else:
+                if "james" in rec.PartialResult():
+                    voice_assistant.run_assistant()
+                    rec.Reset()
+            if dump_fn is not None:
+                dump_fn.write(data)
 
 except KeyboardInterrupt:
     print('\nDone')
