@@ -8,6 +8,7 @@ import vosk
 import sys
 import voice_assistant
 
+wake_word = "james"
 q = queue.Queue()
 
 
@@ -84,11 +85,11 @@ try:
             # if len(data) == 0:
             #     pass
             if rec.AcceptWaveform(data):
-                if "james" in rec.Result():
+                if wake_word in rec.Result():
                     voice_assistant.run_assistant()
                     rec.Reset()
             else:
-                if "james" in rec.PartialResult():
+                if wake_word in rec.PartialResult():
                     voice_assistant.run_assistant()
                     rec.Reset()
             if dump_fn is not None:
