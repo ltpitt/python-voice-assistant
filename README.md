@@ -1,4 +1,5 @@
 # python-voice-assistant
+This repo contains a very simple and basic voice assistant written in Python
 
 # How to install
 To install on Windows be sure to install pipwin:  
