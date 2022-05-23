@@ -6,3 +6,6 @@ To install on Windows be sure to install pipwin:
 ```pip install pipwin```  
 and use it to install some specific modules:  
 ```pipwin install pyaudio```
+
+To start the voice assistant:
+```python wake_word_detection.py```
